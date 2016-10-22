@@ -16,6 +16,6 @@ Usage: `rcg`
 
 Assumes you're using ES latest.
 
-Tests are in a Jest + Enzyme format.
+Tests are in a Jest + Enzyme + Sinon format.
 
 License: WTFPL
