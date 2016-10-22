@@ -20,7 +20,7 @@ const writeComponent = kind => {
   const fileName = type === 'test'
     ? `${component}.test.js`
     : `${component}.js`
-  writeFile(fileName, kind.substr(1), 'utf8', err => {
+  writeFile(fileName, kind, 'utf8', err => {
     if (err) console.log(err)
   })
 }

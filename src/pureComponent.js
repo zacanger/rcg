@@ -10,4 +10,4 @@ ${comp}.propTypes = {
 }
 
 export default ${comp}
-`
+`.substr(1)

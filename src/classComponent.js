@@ -12,4 +12,4 @@ export default class ${comp} extends Component {
     )
   }
 }
-`
+`.substr(1)

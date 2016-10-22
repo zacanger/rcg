@@ -13,5 +13,4 @@ describe('<${comp} />', () => {
     expect(true).toBe(true)
   })
 })
-`
-
+`.substr(1)
