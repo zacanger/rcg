@@ -27,15 +27,16 @@ const writeComponent = kind => {
 const makeDir = comp => mkdirSync(comp)
 
 const writeDir = (kind, name) => {
-  const toWrite = kind === 'function' ? pureComponent(name) : classComponent(name)
-  makeDir(name)
-  writeFile(`${name}/index.js`, idxComponent(name), 'utf8', err => {
+  const c = name.charAt(0).toUpperCase() + name.slice(1)
+  const toWrite = kind === 'function' ? pureComponent(c) : classComponent(c)
+  makeDir(c)
+  writeFile(`${c}/index.js`, idxComponent(c), 'utf8', err => {
     if (err) console.log(err)
   })
-  writeFile(`${name}/${component}.js`, toWrite, 'utf8', err => {
+  writeFile(`${c}/${c}.js`, toWrite, 'utf8', err => {
     if (err) console.log(err)
   })
-  writeFile(`${name}/${name}.test.js`, testComponent(name), 'utf8', err => {
+  writeFile(`${c}/${c}.test.js`, testComponent(c), 'utf8', err => {
     if (err) console.log(err)
   })
 }
