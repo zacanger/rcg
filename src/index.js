@@ -8,6 +8,7 @@ const pureComponent = require('./pureComponent')
 const testComponent = require('./testComponent')
 const helpMessage = require('./help')
 const help = () => console.log(helpMessage)
+const makeDir = a => mkdirSync(a)
 
 if (!second || !type || (second === 'dir' && !third)) return help()
 
@@ -23,8 +24,6 @@ const writeComponent = kind => {
     if (err) console.log(err)
   })
 }
-
-const makeDir = comp => mkdirSync(comp)
 
 const writeDir = (kind, name) => {
   const c = name.charAt(0).toUpperCase() + name.slice(1)

@@ -16,8 +16,10 @@ Usage: `rcg`
   rcg dir class bar
 ```
 
-Assumes you're using ES latest.
+Assumes the following about what it generates:
 
-Tests are in a Jest + Enzyme + Sinon format.
+* You're using at least ES2015
+* Standard style (no semicolons, two spaces)
+* Jest + Enzyme with Sinon test
 
 License: WTFPL
