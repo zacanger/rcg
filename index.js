@@ -1,19 +1,10 @@
 #!/usr/bin/env node
 
 const type = process.argv[2]
-const comp = process.argv[3]
-const { writeFile } = require('fs')
+const second = process.argv[3]
+const third = process.argv[4]
+const { mkdirSync, writeFile } = require('fs')
 
-const help = () =>
-  console.log(`
-  please pass component type and component name
-  component type can be one of class, function, or test
-  examples:
-  rcg function Foo
-  rcg class Bar
-`)
-
-/*
 const help = () =>
   console.log(`
   please pass component type and component name
@@ -23,9 +14,13 @@ const help = () =>
   rcg function Foo
   rcg dir class bar
 `)
-*/
 
-if (!comp || !type) return help()
+if (!second || !type) return help()
+let comp = second
+if (second === 'dir') {
+  if (!third) return help()
+  comp = third
+}
 
 const component = comp.charAt(0).toUpperCase() + comp.slice(1)
 
@@ -59,7 +54,7 @@ export default class ${component} extends Component {
 }
 `
 
-const test = `
+const testComponent = `
 import React from 'react'
 import { shallow } from 'enzyme'
 import { spy } from 'sinon'
@@ -76,7 +71,9 @@ describe('<${component} />', () => {
 })
 `
 
-const doTheThing = kind => {
+const idxComponent = `export { default } from './${component}'`
+
+const writeComponent = kind => {
   const fileName = type === 'test'
     ? `${component}.test.js`
     : `${component}.js`
@@ -85,15 +82,31 @@ const doTheThing = kind => {
   })
 }
 
+const writeDir = kind => {
+  mkdirSync(component)
+  writeFile(`${component}/index.js`, idxComponent, 'utf8', err => {
+    if (err) console.log(err)
+  })
+  writeFile(`${component}/${component}.js`, kind, 'utf8', err => {
+    if (err) console.log(err)
+  })
+  writeFile(`${component}/${component}.test.js`, testComponent, 'utf8', err => {
+    if (err) console.log(err)
+  })
+}
+
 switch (type) {
   case 'function':
-    doTheThing(pureComponent)
+    writeComponent(pureComponent)
     break
   case 'class':
-    doTheThing(classComponent)
+    writeComponent(classComponent)
     break
   case 'test':
-    doTheThing(test)
+    writeComponent(testComponent)
+    break
+  case 'dir':
+    writeDir(comp)
     break
   default:
     return help()
