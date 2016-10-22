@@ -9,10 +9,12 @@ Usage: `rcg`
 ```
   please pass component type and component name
   component type can be one of class, function, or test
-  example: ./rcg.js function Foo
+  examples:
+  rcg function Foo
+  rcg class Bar
 ```
 
-Assumes ES latest.
+Assumes you're using ES latest.
 
 Tests are in a Jest + Enzyme format.
 

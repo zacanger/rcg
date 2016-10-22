@@ -8,8 +8,22 @@ const help = () =>
   console.log(`
   please pass component type and component name
   component type can be one of class, function, or test
-  example: ./rcg.js function Foo
+  examples:
+  rcg function Foo
+  rcg class Bar
 `)
+
+/*
+const help = () =>
+  console.log(`
+  please pass component type and component name
+  component type can be one of class, function, test, or dir
+  if the option is dir, please also pass function or class
+  examples:
+  rcg function Foo
+  rcg dir class bar
+`)
+*/
 
 if (!comp || !type) return help()
 
