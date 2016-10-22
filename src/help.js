@@ -1,12 +1,4 @@
-# RCG
-
-React Component Generator.
-
-Installation: `npm i -g rcg`
-
-Usage: `rcg`
-
-```
+module.exports = `
   RCG : React Component Generator
   Please pass component type and name
   Type can be one of: function class test dir
@@ -14,10 +6,4 @@ Usage: `rcg`
   Examples:
   rcg function Foo
   rcg dir class bar
-```
-
-Assumes you're using ES latest.
-
-Tests are in a Jest + Enzyme + Sinon format.
-
-License: WTFPL
+`

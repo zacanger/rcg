@@ -6,23 +6,12 @@ const idxComponent = require('./idxComponent')
 const classComponent = require('./classComponent')
 const pureComponent = require('./pureComponent')
 const testComponent = require('./testComponent')
+const helpMessage = require('./help')
+const help = () => console.log(helpMessage)
 
-const help = () =>
-  console.log(`
-  please pass component type and component name
-  component type can be one of class, function, test, or dir
-  if the option is dir, please also pass function or class
-  examples:
-  rcg function Foo
-  rcg dir class bar
-`)
+if (!second || !type || (second === 'dir' && !third)) return help()
 
-if (!second || !type) return help()
-let comp = second
-if (second === 'dir') {
-  if (!third) return help()
-  comp = third
-}
+const comp = second === 'dir' ? third : second
 
 const component = comp.charAt(0).toUpperCase() + comp.slice(1)
 
@@ -35,15 +24,18 @@ const writeComponent = kind => {
   })
 }
 
-const writeDir = kind => {
-  mkdirSync(component)
-  writeFile(`${component}/index.js`, idxComponent(component), 'utf8', err => {
+const makeDir = comp => mkdirSync(comp)
+
+const writeDir = (kind, name) => {
+  const toWrite = kind === 'function' ? pureComponent(name) : classComponent(name)
+  makeDir(name)
+  writeFile(`${name}/index.js`, idxComponent(name), 'utf8', err => {
     if (err) console.log(err)
   })
-  writeFile(`${component}/${component}.js`, kind, 'utf8', err => {
+  writeFile(`${name}/${component}.js`, toWrite, 'utf8', err => {
     if (err) console.log(err)
   })
-  writeFile(`${component}/${component}.test.js`, testComponent(component), 'utf8', err => {
+  writeFile(`${name}/${name}.test.js`, testComponent(name), 'utf8', err => {
     if (err) console.log(err)
   })
 }
@@ -59,7 +51,7 @@ switch (type) {
     writeComponent(testComponent(component))
     break
   case 'dir':
-    writeDir(comp)
+    writeDir(second, third)
     break
   default:
     return help()
