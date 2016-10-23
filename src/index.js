@@ -8,36 +8,33 @@ const pureComponent = require('./pureComponent')
 const testComponent = require('./testComponent')
 const helpMessage = require('./help')
 const help = () => console.log(helpMessage)
-const makeDir = a => mkdirSync(a)
+const upper = a => a.charAt(0).toUpperCase() + a.slice(1)
 
 if (!second || !type || (second === 'dir' && !third)) return help()
 
 const comp = second === 'dir' ? third : second
+const component = upper(comp)
 
-const component = comp.charAt(0).toUpperCase() + comp.slice(1)
+const makeFile = (fileName, whatToWrite) => (
+  writeFile(fileName, whatToWrite, 'utf8', err => {
+    if (err) console.warn('Error writing file:', err)
+  })
+)
 
 const writeComponent = kind => {
   const fileName = type === 'test'
     ? `${component}.test.js`
     : `${component}.js`
-  writeFile(fileName, kind, 'utf8', err => {
-    if (err) console.log(err)
-  })
+  makeFile(fileName, kind)
 }
 
 const writeDir = (kind, name) => {
-  const c = name.charAt(0).toUpperCase() + name.slice(1)
+  const c = upper(name)
   const toWrite = kind === 'function' ? pureComponent(c) : classComponent(c)
-  makeDir(c)
-  writeFile(`${c}/index.js`, idxComponent(c), 'utf8', err => {
-    if (err) console.log(err)
-  })
-  writeFile(`${c}/${c}.js`, toWrite, 'utf8', err => {
-    if (err) console.log(err)
-  })
-  writeFile(`${c}/${c}.test.js`, testComponent(c), 'utf8', err => {
-    if (err) console.log(err)
-  })
+  mkdirSync(c)
+  makeFile(`${c}/index.js`, idxComponent(c))
+  makeFile(`${c}/${c}.js`, toWrite)
+  makeFile(`${c}/${c}.test.js`, testComponent(c))
 }
 
 switch (type) {
