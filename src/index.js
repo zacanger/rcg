@@ -30,7 +30,10 @@ const writeComponent = kind => {
 
 const writeDir = (kind, name) => {
   const c = upper(name)
-  const toWrite = kind === 'function' ? pureComponent(c) : classComponent(c)
+  let toWrite
+  if (kind === 'function') toWrite = pureComponent(c)
+  if (kind === 'class') toWrite = classComponent(c)
+  if (kind !== 'function' && kind !== 'class') return help()
   mkdirSync(c)
   makeFile(`${c}/index.js`, idxComponent(c))
   makeFile(`${c}/${c}.js`, toWrite)
