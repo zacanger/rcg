@@ -1,14 +1,18 @@
 const type = process.argv[2]
 const second = process.argv[3]
 const third = process.argv[4]
+const opts = process.argv.slice(4).filter(a => a.startsWith('-'))
+const semis = opts.includes('-s') ? 's' : ''
 const { mkdirSync, writeFile } = require('fs')
-const idxComponent = require('./idxComponent')
-const classComponent = require('./classComponent')
-const pureComponent = require('./pureComponent')
-const testComponent = require('./testComponent')
+const idxComponent = require(`./idxComponent${semis}`)
+const classComponent = require(`./classComponent${semis}`)
+const pureComponent = require(`./pureComponent${semis}`)
+const testComponent = require(`./testComponent${semis}`)
 const helpMessage = require('./help')
 const help = () => console.log(helpMessage)
 const upper = a => a.charAt(0).toUpperCase() + a.slice(1)
+const spaces = a => opts.includes('-f') ? a.replace(/ {2}/g, '    ') : a
+// const semis = a => opts.includes('-s') ? a.replace(/\s/gi, ';') : a // lol
 
 if (!second || !type || (second === 'dir' && !third)) return help()
 
@@ -16,7 +20,7 @@ const comp = second === 'dir' ? third : second
 const component = upper(comp)
 
 const makeFile = (fileName, whatToWrite) => (
-  writeFile(fileName, whatToWrite, 'utf8', err => {
+  writeFile(fileName, spaces(whatToWrite), 'utf8', err => {
     if (err) console.warn('Error writing file:', err)
   })
 )
