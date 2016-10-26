@@ -1,3 +1,7 @@
 #!/usr/bin/env node
 
-require('./src')
+if (module.parent) {
+  console.log('rcg should be installed globally')
+} else {
+  require('./src')
+}

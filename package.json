@@ -1,7 +1,7 @@
 {
   "name": "rcg",
   "description": "react component generator",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": {
     "name": "Zac Anger",
     "email": "zac@zacanger.com",
