@@ -1,16 +1,15 @@
 module.exports = comp => `
 import React from 'react';
-import { shallow } from 'enzyme';
+import { create } from 'react-test-renderer';
 import { spy } from 'sinon';
 import ${comp} from './${comp}';
 
 describe('<${comp} />', () => {
   const noop = () => {};
 
-  it('looks like a ${comp}', () => {
-    const ${comp.toLowerCase()} = shallow(<${comp} />);
-
-    expect(true).toBe(true);
+  it('renders correctly', () => {
+    const ${comp.toLowerCase()} = create(<${comp} />).toJSON();
+    expect(${comp.toLowerCase()}).toMatchSnapshot();
   });
 });
 `.substr(1)

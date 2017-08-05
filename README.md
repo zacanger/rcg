@@ -27,6 +27,6 @@ By default, RCG assumes:
 
 * You're using at least ES2015
 * Standard style (no semicolons, two spaces)
-* Jest + Enzyme with Sinon test
+* Jest + React Test Renderer + snapshots + Sinon
 
 License: WTFPL
